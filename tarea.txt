@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Turnos</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 20px;
+background-color: #f4f4f4;
+}
+.container {
+max-width: 800px;
+margin: 0 auto;
+background: white;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1, h2 {
+text-align: center;
+color: #333;
+}
+.form-group {
+margin-bottom: 15px;
+}
+label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+input, textarea {
+width: 100%;
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+button {
+background-color: #28a745;
+color: white;
+padding: 10px 15px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+width: 100%;
+}
+button:hover {
+background-color: #218838;
+}
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 20px;
+}
+th, td {
+padding: 10px;
+border: 1px solid #ddd;
+text-align: left;
+}
+th {
+background-color: #007bff;
+color: white;
+}
+tr:nth-child(even) {
+background-color: #f2f2f2;
+}
+.driver-table input {
+width: 90%;
+margin: 0 auto;
+display: block;
+}
+@media (max-width: 600px) {
+.container {
+padding: 10px;
+}
+table, th, td {
+font-size: 14px;
+}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Registro de Turnos</h1>
+<form id="turnoForm">
+<div class="form-group">
+<label for="nombreDispatcher">Nombre de Dispatcher</label>
+<input type="text" id="nombreDispatcher" required>
+</div>
+<div class="form-group">
+<label for="horaEntrada">Hora de Entrada</label>
+<input type="time" id="horaEntrada" required>
+</div>
+<div class="form-group">
+<label for="horaSalida">Hora de Salida</label>
+<input type="time" id="horaSalida" required>
+</div>
+<div class="form-group">
+<label for="carrerasPositivas">Carreras Positivas</label>
+<input type="number" id="carrerasPositivas" min="0" required>
+</div>
+<div class="form-group">
+<label for="carrerasNegativas">Carreras Negativas</label>
+<input type="number" id="carrerasNegativas" min="0" required>
+</div>
+<div class="form-group">
+<label for="explicacionNegativas">Explicación Carreras Negativas</label>
+<textarea id="explicacionNegativas" rows="4"></textarea>
+</div>
+<div class="form-group">
+<label for="carrerasNegativasFaltaDriver">Carreras Negativas por Falta de Driver</label>
+<input type="number" id="carrerasNegativasFaltaDriver" min="0" required>
+</div>
+<div class="form-group">
+<label for="carrerasHoteles">Carreras que Entraron por Hoteles</label>
+<input type="number" id="carrerasHoteles" min="0" required>
+</div>
+<div class="form-group">
+<label for="carrerasWhatsApp">Carreras Entradas por WhatsApp</label>
+<input type="number" id="carrerasWhatsApp" min="0" required>
+</div>
+<div class="form-group">
+<label for="appointments">Appointments</label>
+<input type="number" id="appointments" min="0" required>
+</div>
+<div class="form-group">
+<label for="observacionesTurno">Observaciones del Turno</label>
+<textarea id="observacionesTurno" rows="4"></textarea>
+</div>
+<div class="form-group">
+<label>Drivers y Dinero Generado</label>
+<table class="driver-table">
+<thead>
+<tr>
+<th>Nombre Driver</th>
+<th>Monto Generado</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+<tr><td><input type="text" class="driver-nombre" placeholder="Nombre"></td><td><input type="number" class="driver-monto" min="0" placeholder="Monto"></td></tr>
+</tbody>
+</table>
+</div>
+<button type="submit">Registrar Turno</button>
+</form>
+<h2>Registros de Turnos</h2>
+<table id="tablaRegistros">
+<thead>
+<tr>
+<th>Nombre de Dispatcher</th>
+<th>Hora Entrada</th>
+<th>Hora Salida</th>
+<th>Carreras Positivas</th>
+<th>Carreras Negativas</th>
+<th>Explicación Negativas</th>
+<th>Carreras Negativas por Falta Driver</th>
+<th>Carreras por Hoteles</th>
+<th>Carreras por WhatsApp</th>
+<th>Appointments</th>
+<th>Observaciones del Turno</th>
+</tr>
+</thead>
+<tbody id="registrosBody"></tbody>
+</table>
+<h2>Registros de Drivers</h2>
+<table id="tablaDrivers">
+<thead>
+<tr>
+<th>Nombre Turno</th>
+<th>Driver</th>
+<th>Dinero Generado</th>
+</tr>
+</thead>
+<tbody id="driversBody"></tbody>
+</table>
+</div>
+<script>
+// Cargar registros desde localStorage al iniciar
+let registros = JSON.parse(localStorage.getItem('registros')) || [];
+// Función para mostrar registros en la tabla de turnos
+function mostrarRegistros() {
+const tbody = document.getElementById('registrosBody');
+tbody.innerHTML = '';
+registros.forEach(registro => {
+const row = document.createElement('tr');
+row.innerHTML = `
+<td>${registro.nombreDispatcher}</td>
+<td>${registro.horaEntrada}</td>
+<td>${registro.horaSalida}</td>
+<td>${registro.carrerasPositivas}</td>
+<td>${registro.carrerasNegativas}</td>
+<td>${registro.explicacionNegativas || ''}</td>
+<td>${registro.carrerasNegativasFaltaDriver}</td>
+<td>${registro.carrerasHoteles}</td>
+<td>${registro.carrerasWhatsApp}</td>
+<td>${registro.appointments}</td>
+<td>${registro.observacionesTurno || ''}</td>
+`;
+tbody.appendChild(row);
+});
+}
+// Función para mostrar drivers en la tabla de drivers
+function mostrarDrivers() {
+const tbody = document.getElementById('driversBody');
+tbody.innerHTML = '';
+registros.forEach(registro => {
+if (registro.drivers) {
+registro.drivers.forEach(driver => {
+const row = document.createElement('tr');
+row.innerHTML = `
+<td>${registro.nombreDispatcher}</td>
+<td>${driver.nombre}</td>
+<td>${driver.monto}</td>
+`;
+tbody.appendChild(row);
+});
+}
+});
+}
+// Función para guardar un nuevo registro
+document.getElementById('turnoForm').addEventListener('submit', function(e) {
+e.preventDefault();
+const driversArray = [];
+const nombres = document.querySelectorAll('.driver-nombre');
+const montos = document.querySelectorAll('.driver-monto');
+for (let i = 0; i < nombres.length; i++) {
+if (nombres[i].value && montos[i].value) {
+driversArray.push({
+nombre: nombres[i].value.trim(),
+monto: parseFloat(montos[i].value) || 0
+});
+}
+}
+const registro = {
+nombreDispatcher: document.getElementById('nombreDispatcher').value,
+horaEntrada: document.getElementById('horaEntrada').value,
+horaSalida: document.getElementById('horaSalida').value,
+carrerasPositivas: document.getElementById('carrerasPositivas').value,
+carrerasNegativas: d
+</html
+ocument.getElementById('carrerasNegativas').value,
+explicacionNegativas: document.getElementById('explicacionNegativas').value,
+carrerasNegativasFaltaDriver: document.getElementById('carrerasNegativasFaltaDriver').value,
+carrerasHoteles: document.getElementById('carrerasHoteles').value,
+carrerasWhatsApp: document.getElementById('carrerasWhatsApp').value,
+appointments: document.getElementById('appointments').value,
+observacionesTurno: document.getElementById('observacionesTurno').value,
+drivers: driversArray
+};
+registros.push(registro);
+localStorage.setItem('registros', JSON.stringify(registros));
+mostrarRegistros();
+mostrarDrivers();
+this.reset(); // Limpiar formulario
+});
+// Mostrar registros y drivers al cargar la página
+mostrarRegistros();
+mostrarDrivers();
+</script>
+</body>
+
+
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_make_a_website_intro
+
