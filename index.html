@@ -46,163 +46,168 @@
         <!-- CUADRO DE MENSAJES PARA CONFIRMACIÓN/ERROR -->
         <div id="messageBox" class="p-3 rounded-lg text-center font-bold mb-4 hidden"></div>
 
-        <div id="loadingIndicator" class="text-center text-xl text-indigo-500 my-8 hidden">
+        <!-- Indicador de Carga y Diagnóstico (si falla la configuración) -->
+        <div id="loadingIndicator" class="text-center text-xl text-indigo-500 my-8">
             <svg class="animate-spin h-5 w-5 mr-3 inline text-indigo-500" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Conectando a la base de datos...
+            Iniciando conexión a la base de datos...
         </div>
+        
+        <!-- Contenedor del Formulario y Tablas (Se oculta si hay error CRÍTICO) -->
+        <div id="appContent" class="hidden"> 
 
-        <form id="turnoForm" class="space-y-6">
-            <h2 class="text-2xl font-bold text-gray-700 pb-3 border-b">Datos del Turno</h2>
-            
-            <!-- SECCIÓN DE FECHA (DÍA, MES, AÑO) -->
-            <div class="grid grid-cols-3 gap-4">
-                <!-- Día -->
-                <div class="form-group">
-                    <label for="diaTurno" class="block text-sm font-medium text-gray-700">Día</label>
-                    <input type="number" id="diaTurno" min="1" max="31" required placeholder="Ej: 15" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+            <form id="turnoForm" class="space-y-6">
+                <h2 class="text-2xl font-bold text-gray-700 pb-3 border-b">Datos del Turno</h2>
+                
+                <!-- SECCIÓN DE FECHA (DÍA, MES, AÑO) -->
+                <div class="grid grid-cols-3 gap-4">
+                    <!-- Día -->
+                    <div class="form-group">
+                        <label for="diaTurno" class="block text-sm font-medium text-gray-700">Día</label>
+                        <input type="number" id="diaTurno" min="1" max="31" required placeholder="Ej: 15" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
+                    <!-- Mes -->
+                    <div class="form-group">
+                        <label for="mesTurno" class="block text-sm font-medium text-gray-700">Mes</label>
+                        <input type="number" id="mesTurno" min="1" max="12" required placeholder="Ej: 06" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
+                    <!-- Año -->
+                    <div class="form-group">
+                        <label for="anoTurno" class="block text-sm font-medium text-gray-700">Año</label>
+                        <input type="number" id="anoTurno" min="2023" required placeholder="Ej: 2024" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
                 </div>
-                <!-- Mes -->
-                <div class="form-group">
-                    <label for="mesTurno" class="block text-sm font-medium text-gray-700">Mes</label>
-                    <input type="number" id="mesTurno" min="1" max="12" required placeholder="Ej: 06" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
-                </div>
-                <!-- Año -->
-                <div class="form-group">
-                    <label for="anoTurno" class="block text-sm font-medium text-gray-700">Año</label>
-                    <input type="number" id="anoTurno" min="2023" required placeholder="Ej: 2024" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
-                </div>
-            </div>
 
-            <!-- Otros datos del turno -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Nombre Dispatcher -->
-                <div class="form-group">
-                    <label for="nombreDispatcher" class="block text-sm font-medium text-gray-700">Nombre de Dispatcher</label>
-                    <input type="text" id="nombreDispatcher" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                <!-- Otros datos del turno -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Nombre Dispatcher -->
+                    <div class="form-group">
+                        <label for="nombreDispatcher" class="block text-sm font-medium text-gray-700">Nombre de Dispatcher</label>
+                        <input type="text" id="nombreDispatcher" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
+                    <!-- Hora Entrada -->
+                    <div class="form-group">
+                        <label for="horaEntrada" class="block text-sm font-medium text-gray-700">Hora de Entrada</label>
+                        <input type="time" id="horaEntrada" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
+                    <!-- Hora Salida -->
+                    <div class="form-group">
+                        <label for="horaSalida" class="block text-sm font-medium text-gray-700">Hora de Salida</label>
+                        <input type="time" id="horaSalida" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
+                    <!-- Carreras Positivas -->
+                    <div class="form-group">
+                        <label for="carrerasPositivas" class="block text-sm font-medium text-gray-700">Carreras Positivas</label>
+                        <input type="number" id="carrerasPositivas" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
+                    <!-- Carreras Negativas -->
+                    <div class="form-group">
+                        <label for="carrerasNegativas" class="block text-sm font-medium text-gray-700">Carreras Negativas (Perdidas)</label>
+                        <input type="number" id="carrerasNegativas" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
+                    <!-- Carreras Negativas Falta Driver -->
+                    <div class="form-group">
+                        <label for="carrerasNegativasFaltaDriver" class="block text-sm font-medium text-gray-700">Negativas por Falta de Driver</label>
+                        <input type="number" id="carrerasNegativasFaltaDriver" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
+                    <!-- Carreras Hoteles -->
+                    <div class="form-group">
+                        <label for="carrerasHoteles" class="block text-sm font-medium text-gray-700">Carreras que Entraron por Hoteles</label>
+                        <input type="number" id="carrerasHoteles" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
+                    <!-- Carreras WhatsApp -->
+                    <div class="form-group">
+                        <label for="carrerasWhatsApp" class="block text-sm font-medium text-gray-700">Carreras Entradas por WhatsApp</label>
+                        <input type="number" id="carrerasWhatsApp" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
+                    <!-- Appointments -->
+                    <div class="form-group">
+                        <label for="appointments" class="block text-sm font-medium text-gray-700">Appointments</label>
+                        <input type="number" id="appointments" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                    </div>
                 </div>
-                <!-- Hora Entrada -->
-                <div class="form-group">
-                    <label for="horaEntrada" class="block text-sm font-medium text-gray-700">Hora de Entrada</label>
-                    <input type="time" id="horaEntrada" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
-                </div>
-                <!-- Hora Salida -->
-                <div class="form-group">
-                    <label for="horaSalida" class="block text-sm font-medium text-gray-700">Hora de Salida</label>
-                    <input type="time" id="horaSalida" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
-                </div>
-                <!-- Carreras Positivas -->
-                <div class="form-group">
-                    <label for="carrerasPositivas" class="block text-sm font-medium text-gray-700">Carreras Positivas</label>
-                    <input type="number" id="carrerasPositivas" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
-                </div>
-                <!-- Carreras Negativas -->
-                <div class="form-group">
-                    <label for="carrerasNegativas" class="block text-sm font-medium text-gray-700">Carreras Negativas (Perdidas)</label>
-                    <input type="number" id="carrerasNegativas" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
-                </div>
-                <!-- Carreras Negativas Falta Driver -->
-                <div class="form-group">
-                    <label for="carrerasNegativasFaltaDriver" class="block text-sm font-medium text-gray-700">Negativas por Falta de Driver</label>
-                    <input type="number" id="carrerasNegativasFaltaDriver" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
-                </div>
-                <!-- Carreras Hoteles -->
-                <div class="form-group">
-                    <label for="carrerasHoteles" class="block text-sm font-medium text-gray-700">Carreras que Entraron por Hoteles</label>
-                    <input type="number" id="carrerasHoteles" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
-                </div>
-                <!-- Carreras WhatsApp -->
-                <div class="form-group">
-                    <label for="carrerasWhatsApp" class="block text-sm font-medium text-gray-700">Carreras Entradas por WhatsApp</label>
-                    <input type="number" id="carrerasWhatsApp" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
-                </div>
-                <!-- Appointments -->
-                <div class="form-group">
-                    <label for="appointments" class="block text-sm font-medium text-gray-700">Appointments</label>
-                    <input type="number" id="appointments" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
-                </div>
-            </div>
 
-            <!-- Explicación Carreras Negativas -->
-            <div class="form-group">
-                <label for="explicacionNegativas" class="block text-sm font-medium text-gray-700">Explicación Carreras Negativas</label>
-                <textarea id="explicacionNegativas" rows="3" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm"></textarea>
-            </div>
-            <!-- Observaciones del Turno -->
-            <div class="form-group">
-                <label for="observacionesTurno" class="block text-sm font-medium text-gray-700">Observaciones del Turno</label>
-                <textarea id="observacionesTurno" rows="3" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm"></textarea>
-            </div>
+                <!-- Explicación Carreras Negativas -->
+                <div class="form-group">
+                    <label for="explicacionNegativas" class="block text-sm font-medium text-gray-700">Explicación Carreras Negativas</label>
+                    <textarea id="explicacionNegativas" rows="3" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm"></textarea>
+                </div>
+                <!-- Observaciones del Turno -->
+                <div class="form-group">
+                    <label for="observacionesTurno" class="block text-sm font-medium text-gray-700">Observaciones del Turno</label>
+                    <textarea id="observacionesTurno" rows="3" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm"></textarea>
+                </div>
 
-            <!-- Drivers y Dinero Generado -->
-            <h3 class="text-xl font-bold text-gray-700 pt-4 pb-2 border-b">Drivers y Montos</h3>
-            <div class="responsive-table">
-                <table class="driver-table min-w-full divide-y divide-gray-200">
-                    <thead class="bg-indigo-500 text-white">
+                <!-- Drivers y Dinero Generado -->
+                <h3 class="text-xl font-bold text-gray-700 pt-4 pb-2 border-b">Drivers y Montos</h3>
+                <div class="responsive-table">
+                    <table class="driver-table min-w-full divide-y divide-gray-200">
+                        <thead class="bg-indigo-500 text-white">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Nombre Driver</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Monto Generado ($)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="driverInputsBody" class="bg-white divide-y divide-gray-200">
+                            <!-- Filas de drivers generadas por JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- BOTÓN "AGREGAR DRIVER" -->
+                <button id="addDriverRowBtn" type="button" class="mt-2 text-indigo-600 text-sm font-medium hover:text-indigo-800">
+                    + Agregar Driver
+                </button>
+
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md mt-6">
+                    <span id="submitText">Registrar y Compartir Turno</span>
+                    <svg id="submitSpinner" class="animate-spin h-5 w-5 mr-3 inline text-white hidden" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Sección de Registros en Tiempo Real -->
+            <h2 class="text-3xl font-bold text-gray-800 mt-12 mb-6 border-b pb-2">Turnos Registrados (Tiempo Real)</h2>
+            <div class="responsive-table shadow-lg rounded-lg overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-blue-600 text-white">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Nombre Driver</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Monto Generado ($)</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Fecha</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Dispatcher</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Entrada</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Salida</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Positivas</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Negativas</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Negativas x Driver</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Observaciones</th>
                         </tr>
                     </thead>
-                    <tbody id="driverInputsBody" class="bg-white divide-y divide-gray-200">
-                        <!-- Filas de drivers generadas por JS -->
+                    <tbody id="registrosBody" class="bg-white divide-y divide-gray-100">
+                        <tr><td colspan="8" class="text-center py-4 text-gray-500">Cargando registros...</td></tr>
                     </tbody>
                 </table>
             </div>
-            <!-- BOTÓN "AGREGAR DRIVER" -->
-            <button id="addDriverRowBtn" type="button" class="mt-2 text-indigo-600 text-sm font-medium hover:text-indigo-800">
-                + Agregar Driver
-            </button>
 
-            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md mt-6">
-                <span id="submitText">Registrar y Compartir Turno</span>
-                <svg id="submitSpinner" class="animate-spin h-5 w-5 mr-3 inline text-white hidden" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-            </button>
-        </form>
-
-        <!-- Sección de Registros en Tiempo Real -->
-        <h2 class="text-3xl font-bold text-gray-800 mt-12 mb-6 border-b pb-2">Turnos Registrados (Tiempo Real)</h2>
-        <div class="responsive-table shadow-lg rounded-lg overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-blue-600 text-white">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Fecha</th> <!-- NUEVA COLUMNA -->
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Dispatcher</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Entrada</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Salida</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Positivas</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Negativas</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Negativas x Driver</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Observaciones</th>
-                    </tr>
-                </thead>
-                <tbody id="registrosBody" class="bg-white divide-y divide-gray-100">
-                    <tr><td colspan="8" class="text-center py-4 text-gray-500">Cargando registros...</td></tr> <!-- Colspan ajustado a 8 -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Sección de Drivers Agregados -->
-        <h2 class="text-3xl font-bold text-gray-800 mt-12 mb-6 border-b pb-2">Resumen de Drivers y Dinero</h2>
-        <div class="responsive-table shadow-lg rounded-lg overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-blue-600 text-white">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Nombre Turno</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Driver</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Monto Generado</th>
-                    </tr>
-                </thead>
-                <tbody id="driversBody" class="bg-white divide-y divide-gray-100">
-                    <tr><td colspan="3" class="text-center py-4 text-gray-500">Cargando datos de drivers...</td></tr>
-                </tbody>
-            </table>
-        </div>
+            <!-- Sección de Drivers Agregados -->
+            <h2 class="text-3xl font-bold text-gray-800 mt-12 mb-6 border-b pb-2">Resumen de Drivers y Dinero</h2>
+            <div class="responsive-table shadow-lg rounded-lg overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-blue-600 text-white">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Nombre Turno</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Driver</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Monto Generado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="driversBody" class="bg-white divide-y divide-gray-100">
+                        <tr><td colspan="3" class="text-center py-4 text-gray-500">Cargando datos de drivers...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- Fin de appContent -->
     </div>
 
     <script type="module">
@@ -211,35 +216,55 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, onSnapshot, setLogLevel, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // --- Elementos del DOM ---
+        const authStateElement = document.getElementById('authState');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const driverInputsBody = document.getElementById('driverInputsBody');
+        const appContent = document.getElementById('appContent');
+
         // --- Configuración e Inicialización de Firebase ---
         setLogLevel('error'); // Limitar el log de Firebase para ver solo errores
         
         // Variables globales proporcionadas por el entorno (MANDATORIAS)
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         let firebaseConfig; 
-        let configError = false; // Nueva bandera para controlar errores de configuración
+        let configError = false; // Bandera para controlar errores de configuración
         
         try {
+            // Intenta cargar y parsear la configuración de Firebase
             firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
             if (Object.keys(firebaseConfig).length === 0) {
                  throw new Error("Configuración de Firebase vacía.");
             }
         } catch (e) {
             console.error("Error crítico al cargar o parsear __firebase_config:", e);
-            // Mostrar error en el UI sin usar alert()
-            const errorElement = document.getElementById('loadingIndicator');
-            errorElement.textContent = "Error crítico al cargar la configuración de Firebase.";
-            errorElement.classList.remove('hidden');
+            
+            // --- DIAGNÓSTICO DE ERROR CRÍTICO EN EL UI ---
+            loadingIndicator.innerHTML = `
+                <div class="p-6 bg-red-100 border border-red-400 text-red-700 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-2">🚨 ERROR CRÍTICO DE CONFIGURACIÓN 🚨</h2>
+                    <p class="mb-3">La aplicación no puede encontrar o leer la configuración de la base de datos (Firebase/Firestore).</p>
+                    <p class="font-semibold">Solución:</p>
+                    <ul class="list-disc list-inside text-left ml-4">
+                        <li><strong>Verifique su link o URL:</strong> Asegúrese de que el entorno de la aplicación esté proveyendo la configuración de Firebase correctamente.</li>
+                        <li><strong>La Base de Datos está Desconectada:</strong> El formulario y las tablas NO funcionarán hasta que se resuelva este error de conexión.</li>
+                    </ul>
+                </div>
+            `;
+            loadingIndicator.classList.remove('hidden', 'text-indigo-500');
+            loadingIndicator.classList.add('text-red-500');
+            appContent.classList.add('hidden'); // Ocultar todo el contenido de la app
+            authStateElement.textContent = `CRÍTICO: Desconectado`;
+            authStateElement.classList.remove('bg-indigo-600');
+            authStateElement.classList.add('bg-red-600');
+            
             configError = true; // Establecer la bandera de error
+            console.log("ATENCIÓN: La aplicación NO SE CONECTARÁ a Firestore. La configuración '__firebase_config' es inválida o no existe.");
         }
 
         let app, db, auth, userId = null;
         let isAuthReady = false;
         
-        const authStateElement = document.getElementById('authState');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const driverInputsBody = document.getElementById('driverInputsBody');
-
         // Función para mostrar mensajes de estado (éxito/error) al usuario
         function showMessage(message, isError = false) {
             const box = document.getElementById('messageBox');
@@ -262,6 +287,8 @@
 
         // Función para manejar el estado de autenticación y la inicialización de Firebase
         async function initializeFirebase() {
+            if (configError) return; // No intentar inicializar si hubo error de configuración
+
             try {
                 // 1. Inicializar App y Servicios
                 app = initializeApp(firebaseConfig);
@@ -289,26 +316,37 @@
                         authStateElement.classList.add('bg-green-600');
                         startRealtimeListeners(); // Iniciar escucha de datos
                         loadingIndicator.classList.add('hidden');
+                        appContent.classList.remove('hidden'); // Mostrar contenido de la app
                     } else {
                         // En caso de fallo de token, usar ID anónimo/random
                         isAuthReady = true;
                         userId = crypto.randomUUID(); 
                         authStateElement.textContent = `No Autenticado | ID: ${userId.substring(0, 8)}...`;
                         authStateElement.classList.remove('bg-indigo-600');
-                        authStateElement.classList.add('bg-red-600');
+                        authStateElement.classList.add('bg-orange-600'); // Usar naranja para conexión anónima
                         loadingIndicator.classList.add('hidden');
+                        appContent.classList.remove('hidden'); // Mostrar contenido de la app
                         startRealtimeListeners(); 
                     }
                 });
 
             } catch (error) {
                 console.error("Error al inicializar o autenticar Firebase:", error);
-                showMessage(`ERROR de Conexión. Revisa la consola para detalles.`, true);
+                showMessage(`ERROR de Conexión. El sistema no pudo iniciar sesión con la base de datos.`, true);
+                
+                // Mostrar error visible en el área de carga
+                loadingIndicator.innerHTML = `
+                    <div class="p-6 bg-red-100 border border-red-400 text-red-700 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-bold mb-2">❌ ERROR DE CONEXIÓN ❌</h2>
+                        <p class="mb-3">Hubo un fallo al intentar iniciar sesión en la base de datos. Revisa la consola para más detalles (Posible problema de reglas de seguridad o red).</p>
+                    </div>
+                `;
+                loadingIndicator.classList.remove('hidden', 'text-indigo-500');
+                loadingIndicator.classList.add('text-red-500');
+                
                 authStateElement.textContent = `Error de Conexión.`;
                 authStateElement.classList.remove('bg-indigo-600');
                 authStateElement.classList.add('bg-red-600');
-                loadingIndicator.textContent = "Error de conexión.";
-                loadingIndicator.classList.remove('hidden');
             }
         }
 
@@ -351,7 +389,7 @@
 
         // Escucha en tiempo real para actualizar las tablas
         function startRealtimeListeners() {
-            if (!db || !isAuthReady) return; 
+            if (!db || !isAuthReady || configError) return; 
 
             const q = query(collection(db, getCollectionPath()));
 
@@ -480,8 +518,13 @@
         document.getElementById('turnoForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
+            // *** Verificación CRÍTICA: Configuración y Conexión ***
+            if (configError) {
+                showMessage("ERROR CRÍTICO: No se puede conectar a la base de datos (Firestore). El problema es la configuración de su link.", true);
+                return;
+            }
             if (!db || !isAuthReady) {
-                showMessage("La aplicación no está lista o la base de datos no está conectada.", true);
+                showMessage("La aplicación aún no ha terminado de conectar. Espere unos segundos e intente de nuevo.", true);
                 return;
             }
 
@@ -549,7 +592,7 @@
             } catch (error) {
                 console.error("Error al registrar el turno:", error);
                 // Mostrar error visible al usuario
-                showMessage(`ERROR: No se pudo registrar el turno. ${error.message}`, true);
+                showMessage(`ERROR: No se pudo registrar el turno. ${error.message}. Revise la consola.`, true);
             } finally {
                 // Restaurar el botón
                 submitButton.disabled = false;
