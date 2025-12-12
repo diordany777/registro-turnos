@@ -3,28 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Turnos Colaborativo</title>
-    <!-- Carga de Tailwind CSS para un diseño moderno -->
+    <title>Registro de Turnos Dispatcher</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        /* Estilos personalizados para mejor apariencia y consistencia */
         .driver-table input {
-            /* Aplicar estilos de Tailwind a los inputs dentro de la tabla */
             @apply w-full border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150;
         }
-        /* Estilo para el botón flotante de estado de conexión */
         #authState {
             position: fixed;
             top: 10px;
             right: 10px;
             z-index: 50;
         }
-        /* Configuración de fuente y fondo */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8;
         }
-        /* Estilo para la tabla que permite el desplazamiento horizontal en móviles */
         .responsive-table {
             display: block;
             width: 100%;
@@ -33,118 +28,108 @@
         }
     </style>
 </head>
+
 <body class="p-4 md:p-8">
 
-
-    <!-- Indicador de Estado de Conexión y User ID -->
+    <!-- ESTADO DE AUTENTICACIÓN -->
     <div id="authState" class="bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
         Cargando...
     </div>
 
-
     <div class="max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-xl shadow-2xl border-t-4 border-indigo-500">
         <h1 class="text-3xl font-extrabold text-center text-gray-900 mb-8">Registro de Turnos Dispatcher</h1>
-       
-        <!-- CUADRO DE MENSAJES PARA CONFIRMACIÓN/ERROR -->
-        <div id="messageBox" class="p-3 rounded-lg text-center font-bold mb-4 hidden"></div>
 
+        <div id="messageBox" class="p-3 rounded-lg text-center font-bold mb-4 hidden"></div>
 
         <div id="loadingIndicator" class="text-center text-xl text-indigo-500 my-8 hidden">
             <svg class="animate-spin h-5 w-5 mr-3 inline text-indigo-500" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Conectando a la base de datos...
+            Conectando a Firebase...
         </div>
 
-
+        <!-- FORMULARIO -->
         <form id="turnoForm" class="space-y-6">
             <h2 class="text-2xl font-bold text-gray-700 pb-3 border-b">Datos del Turno</h2>
-           
-            <!-- SECCIÓN DE FECHA (DÍA, MES, AÑO) -->
+
             <div class="grid grid-cols-3 gap-4">
-                <!-- Día -->
-                <div class="form-group">
-                    <label for="diaTurno" class="block text-sm font-medium text-gray-700">Día</label>
-                    <input type="number" id="diaTurno" min="1" max="31" required placeholder="Ej: 15" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Día</label>
+                    <input type="number" id="diaTurno" min="1" max="31" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
-                <!-- Mes -->
-                <div class="form-group">
-                    <label for="mesTurno" class="block text-sm font-medium text-gray-700">Mes</label>
-                    <input type="number" id="mesTurno" min="1" max="12" required placeholder="Ej: 06" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Mes</label>
+                    <input type="number" id="mesTurno" min="1" max="12" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
-                <!-- Año -->
-                <div class="form-group">
-                    <label for="anoTurno" class="block text-sm font-medium text-gray-700">Año</label>
-                    <input type="number" id="anoTurno" min="2023" required placeholder="Ej: 2024" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Año</label>
+                    <input type="number" id="anoTurno" min="2023" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
             </div>
 
-
-            <!-- Otros datos del turno -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Nombre Dispatcher -->
-                <div class="form-group">
-                    <label for="nombreDispatcher" class="block text-sm font-medium text-gray-700">Nombre de Dispatcher</label>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nombre Dispatcher</label>
                     <input type="text" id="nombreDispatcher" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
-                <!-- Hora Entrada -->
-                <div class="form-group">
-                    <label for="horaEntrada" class="block text-sm font-medium text-gray-700">Hora de Entrada</label>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Hora de Entrada</label>
                     <input type="time" id="horaEntrada" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
-                <!-- Hora Salida -->
-                <div class="form-group">
-                    <label for="horaSalida" class="block text-sm font-medium text-gray-700">Hora de Salida</label>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Hora de Salida</label>
                     <input type="time" id="horaSalida" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
-                <!-- Carreras Positivas -->
-                <div class="form-group">
-                    <label for="carrerasPositivas" class="block text-sm font-medium text-gray-700">Carreras Positivas</label>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Carreras Positivas</label>
                     <input type="number" id="carrerasPositivas" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
-                <!-- Carreras Negativas -->
-                <div class="form-group">
-                    <label for="carrerasNegativas" class="block text-sm font-medium text-gray-700">Carreras Negativas (Perdidas)</label>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Carreras Negativas</label>
                     <input type="number" id="carrerasNegativas" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
-                <!-- Carreras Negativas Falta Driver -->
-                <div class="form-group">
-                    <label for="carrerasNegativasFaltaDriver" class="block text-sm font-medium text-gray-700">Negativas por Falta de Driver</label>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Negativas por Falta de Driver</label>
                     <input type="number" id="carrerasNegativasFaltaDriver" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
-                <!-- Carreras Hoteles -->
-                <div class="form-group">
-                    <label for="carrerasHoteles" class="block text-sm font-medium text-gray-700">Carreras que Entraron por Hoteles</label>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Carreras Hoteles</label>
                     <input type="number" id="carrerasHoteles" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
-                <!-- Carreras WhatsApp -->
-                <div class="form-group">
-                    <label for="carrerasWhatsApp" class="block text-sm font-medium text-gray-700">Carreras Entradas por WhatsApp</label>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Carreras WhatsApp</label>
                     <input type="number" id="carrerasWhatsApp" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
-                <!-- Appointments -->
-                <div class="form-group">
-                    <label for="appointments" class="block text-sm font-medium text-gray-700">Appointments</label>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Appointments</label>
                     <input type="number" id="appointments" min="0" required class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm">
                 </div>
             </div>
 
-
-            <!-- Explicación Carreras Negativas -->
-            <div class="form-group">
-                <label for="explicacionNegativas" class="block text-sm font-medium text-gray-700">Explicación Carreras Negativas</label>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Explicación Carreras Negativas</label>
                 <textarea id="explicacionNegativas" rows="3" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm"></textarea>
             </div>
-            <!-- Observaciones del Turno -->
-            <div class="form-group">
-                <label for="observacionesTurno" class="block text-sm font-medium text-gray-700">Observaciones del Turno</label>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Observaciones del Turno</label>
                 <textarea id="observacionesTurno" rows="3" class="mt-1 block w-full border border-gray-300 rounded-lg p-3 shadow-sm"></textarea>
             </div>
 
-
-            <!-- Drivers y Dinero Generado -->
             <h3 class="text-xl font-bold text-gray-700 pt-4 pb-2 border-b">Drivers y Montos</h3>
+
             <div class="responsive-table">
                 <table class="driver-table min-w-full divide-y divide-gray-200">
                     <thead class="bg-indigo-500 text-white">
@@ -153,16 +138,13 @@
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Monto Generado ($)</th>
                         </tr>
                     </thead>
-                    <tbody id="driverInputsBody" class="bg-white divide-y divide-gray-200">
-                        <!-- Filas de drivers generadas por JS -->
-                    </tbody>
+                    <tbody id="driverInputsBody" class="bg-white divide-y divide-gray-200"></tbody>
                 </table>
             </div>
-            <!-- BOTÓN "AGREGAR DRIVER" -->
-            <button id="addDriverRowBtn" type="button" class="mt-2 text-indigo-600 text-sm font-medium hover:text-indigo-800">
+
+            <button type="button" id="addDriverRowBtn" class="mt-2 text-indigo-600 text-sm font-medium hover:text-indigo-800">
                 + Agregar Driver
             </button>
-
 
             <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md mt-6">
                 <span id="submitText">Registrar y Compartir Turno</span>
@@ -173,171 +155,109 @@
             </button>
         </form>
 
+        <!-- TABLA DE TURNOS -->
+        <h2 class="text-3xl font-bold text-gray-800 mt-12 mb-6 border-b pb-2">Turnos Registrados</h2>
 
-        <!-- Sección de Registros en Tiempo Real -->
-        <h2 class="text-3xl font-bold text-gray-800 mt-12 mb-6 border-b pb-2">Turnos Registrados (Tiempo Real)</h2>
         <div class="responsive-table shadow-lg rounded-lg overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-blue-600 text-white">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Fecha</th> <!-- NUEVA COLUMNA -->
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Dispatcher</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Entrada</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Salida</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Positivas</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Negativas</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Negativas x Driver</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Observaciones</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Fecha</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Dispatcher</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Entrada</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Salida</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Positivas</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Negativas</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Neg. x Driver</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Observaciones</th>
                     </tr>
                 </thead>
+
                 <tbody id="registrosBody" class="bg-white divide-y divide-gray-100">
-                    <tr><td colspan="8" class="text-center py-4 text-gray-500">Cargando registros...</td></tr> <!-- Colspan ajustado a 8 -->
+                    <tr><td colspan="8" class="text-center py-4 text-gray-500">Cargando registros...</td></tr>
                 </tbody>
             </table>
         </div>
 
-
-        <!-- Sección de Drivers Agregados -->
+        <!-- TABLA DE DRIVERS -->
         <h2 class="text-3xl font-bold text-gray-800 mt-12 mb-6 border-b pb-2">Resumen de Drivers y Dinero</h2>
+
         <div class="responsive-table shadow-lg rounded-lg overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-blue-600 text-white">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Nombre Turno</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Driver</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Monto Generado</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Nombre Turno</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Driver</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase">Monto Generado</th>
                     </tr>
                 </thead>
+
                 <tbody id="driversBody" class="bg-white divide-y divide-gray-100">
                     <tr><td colspan="3" class="text-center py-4 text-gray-500">Cargando datos de drivers...</td></tr>
                 </tbody>
             </table>
         </div>
+
     </div>
 
-
+    <!-- SCRIPT FIREBASE -->
     <script type="module">
-        // Importaciones de Firebase para autenticación y base de datos
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, onSnapshot, setLogLevel, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        /* 🔥 CONFIGURACIÓN REAL DE FIREBASE (EDITAR AQUÍ) */
+        const firebaseConfig = {
+            apiKey: "TU_API_KEY",
+            authDomain: "TU_AUTH_DOMAIN",
+            projectId: "TU_PROJECT_ID",
+            storageBucket: "TU_STORAGE_BUCKET",
+            messagingSenderId: "TU_SENDER_ID",
+            appId: "TU_APP_ID",
+        };
 
-        // --- Configuración e Inicialización de Firebase ---
-        setLogLevel('error'); // Limitar el log de Firebase para ver solo errores
-       
-        // Variables globales proporcionadas por el entorno (MANDATORIAS)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        let firebaseConfig;
-        let configError = false; // Nueva bandera para controlar errores de configuración
-       
-        try {
-            firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-            if (Object.keys(firebaseConfig).length === 0) {
-                 throw new Error("Configuración de Firebase vacía.");
-            }
-        } catch (e) {
-            console.error("Error crítico al cargar o parsear __firebase_config:", e);
-            // Mostrar error en el UI sin usar alert()
-            const errorElement = document.getElementById('loadingIndicator');
-            errorElement.textContent = "Error crítico al cargar la configuración de Firebase.";
-            errorElement.classList.remove('hidden');
-            configError = true; // Establecer la bandera de error
-        }
+        const appId = "turnos-despacho";
 
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
 
-        let app, db, auth, userId = null;
+        let userId = null;
         let isAuthReady = false;
-       
-        const authStateElement = document.getElementById('authState');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const driverInputsBody = document.getElementById('driverInputsBody');
 
+        const authStateElement = document.getElementById("authState");
+        const loadingIndicator = document.getElementById("loadingIndicator");
 
-        // Función para mostrar mensajes de estado (éxito/error) al usuario
-        function showMessage(message, isError = false) {
-            const box = document.getElementById('messageBox');
-            box.textContent = message;
-           
-            // Limpiar clases y aplicar el estilo correspondiente
-            box.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
-           
-            if (isError) {
-                box.classList.add('bg-red-100', 'text-red-700');
-            } else {
-                box.classList.add('bg-green-100', 'text-green-700');
+        /* 🔐 AUTENTICACIÓN ANÓNIMA */
+        signInAnonymously(auth).catch(err => {
+            console.error("Error autenticando:", err);
+            authStateElement.textContent = "Error autenticando";
+            authStateElement.classList.add("bg-red-600");
+        });
+
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                userId = user.uid;
+                isAuthReady = true;
+
+                authStateElement.textContent = `Conectado | ID: ${userId.substring(0, 8)}...`;
+                authStateElement.classList.remove("bg-indigo-600");
+                authStateElement.classList.add("bg-green-600");
+
+                loadingIndicator.classList.add("hidden");
+
+                startRealtimeListeners();
             }
-           
-            // Ocultar después de 5 segundos
-            setTimeout(() => {
-                box.classList.add('hidden');
-            }, 5000);
-        }
+        });
 
+        /* 📌 COLECCIÓN FIRESTORE */
+        const getCollectionPath = () => `artifacts/${appId}/public/data/turnos_registros`;
 
-        // Función para manejar el estado de autenticación y la inicialización de Firebase
-        async function initializeFirebase() {
-            try {
-                // 1. Inicializar App y Servicios
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-
-                // 2. Establecer persistencia (opcional, pero útil)
-                await setPersistence(auth, browserSessionPersistence);
-
-
-                // 3. Autenticación (usando el token proporcionado o anónima)
-                const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-
-                // 4. Listener de Autenticación
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        isAuthReady = true;
-                        authStateElement.textContent = `Conectado | ID: ${userId.substring(0, 8)}...`;
-                        authStateElement.classList.remove('bg-indigo-600', 'bg-red-600');
-                        authStateElement.classList.add('bg-green-600');
-                        startRealtimeListeners(); // Iniciar escucha de datos
-                        loadingIndicator.classList.add('hidden');
-                    } else {
-                        // En caso de fallo de token, usar ID anónimo/random
-                        isAuthReady = true;
-                        userId = crypto.randomUUID();
-                        authStateElement.textContent = `No Autenticado | ID: ${userId.substring(0, 8)}...`;
-                        authStateElement.classList.remove('bg-indigo-600');
-                        authStateElement.classList.add('bg-red-600');
-                        loadingIndicator.classList.add('hidden');
-                        startRealtimeListeners();
-                    }
-                });
-
-
-            } catch (error) {
-                console.error("Error al inicializar o autenticar Firebase:", error);
-                showMessage(`ERROR de Conexión. Revisa la consola para detalles.`, true);
-                authStateElement.textContent = `Error de Conexión.`;
-                authStateElement.classList.remove('bg-indigo-600');
-                authStateElement.classList.add('bg-red-600');
-                loadingIndicator.textContent = "Error de conexión.";
-                loadingIndicator.classList.remove('hidden');
-            }
-        }
-
-
-        // --- Gestión de Filas Dinámicas de Drivers ---
-
-
-        // Función para agregar una nueva fila de input para driver
+        /* ➕ AGREGAR FILA DRIVER */
+        const driverInputsBody = document.getElementById("driverInputsBody");
         function addDriverRow() {
-            const row = document.createElement('tr');
+            const row = document.createElement("tr");
             row.innerHTML = `
                 <td class="px-6 py-4 whitespace-nowrap"><input type="text" class="driver-nombre" placeholder="Nombre"></td>
                 <td class="px-6 py-4 whitespace-nowrap"><input type="number" class="driver-monto" min="0" placeholder="Monto"></td>
@@ -345,275 +265,180 @@
             driverInputsBody.appendChild(row);
         }
 
-
-        // Configuración Inicial de Drivers y Listener del Botón
         function setupDriverRows() {
-            // Limpiar y generar 5 filas iniciales por defecto
-            driverInputsBody.innerHTML = '';
-            for (let i = 0; i < 5; i++) {
-                addDriverRow();
-            }
-           
-            // Asignar el listener al botón (Corrección: Asegura que el botón funcione)
-            const addDriverBtn = document.getElementById('addDriverRowBtn');
-            if (addDriverBtn) {
-                 addDriverBtn.removeEventListener('click', addDriverRow);
-                 addDriverBtn.addEventListener('click', addDriverRow);
-            }
+            driverInputsBody.innerHTML = "";
+            for (let i = 0; i < 5; i++) addDriverRow();
         }
-       
-        setupDriverRows(); // Llamada inicial
+        setupDriverRows();
 
+        document.getElementById("addDriverRowBtn").addEventListener("click", addDriverRow);
 
-        // --- Escucha de Datos en Tiempo Real (Realtime Listeners) ---
-
-
-        // Ruta de la colección pública (accesible por todos)
-        const getCollectionPath = () => {
-            return `artifacts/${appId}/public/data/turnos_registros`;
-        };
-
-
-        // Escucha en tiempo real para actualizar las tablas
+        /* 📡 ESCUCHA EN TIEMPO REAL */
         function startRealtimeListeners() {
-            if (!db || !isAuthReady) return;
-
-
             const q = query(collection(db, getCollectionPath()));
 
-
-            onSnapshot(q, (snapshot) => {
+            onSnapshot(q, snapshot => {
                 const turnos = [];
                 const drivers = [];
 
-
-                snapshot.forEach((doc) => {
+                snapshot.forEach(doc => {
                     const data = doc.data();
                     turnos.push({ id: doc.id, ...data });
 
-
-                    // Procesar drivers para la segunda tabla
-                    if (data.drivers && Array.isArray(data.drivers)) {
-                        data.drivers.forEach(driver => {
-                            if (driver.nombre && driver.monto > 0) {
+                    if (Array.isArray(data.drivers)) {
+                        data.drivers.forEach(d => {
+                            if (d.nombre && d.monto > 0) {
                                 drivers.push({
                                     turnoDispatcher: data.nombreDispatcher,
-                                    driverNombre: driver.nombre,
-                                    monto: driver.monto
+                                    driverNombre: d.nombre,
+                                    monto: d.monto
                                 });
                             }
                         });
                     }
                 });
-               
-                // Ordenar por fecha de más reciente a más antiguo (ordenar en cliente para evitar problemas de índices)
-                // Se ordena por timestamp primero y luego por fecha (en caso de que timestamp sea nulo)
-                turnos.sort((a, b) => {
-                    const tsA = a.timestamp?.seconds || 0;
-                    const tsB = b.timestamp?.seconds || 0;
-                    if (tsA !== tsB) return tsB - tsA;
 
-
-                    // Si no hay timestamp (registros antiguos), se ordena por fecha string
-                    if (a.fechaTurno && b.fechaTurno) {
-                        return b.fechaTurno.localeCompare(a.fechaTurno);
-                    }
-                    return 0;
-                });
-
-
-
+                turnos.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
 
                 mostrarRegistros(turnos);
                 mostrarDrivers(drivers);
-            }, (error) => {
-                console.error("Error al escuchar los registros en tiempo real:", error);
-                document.getElementById('registrosBody').innerHTML = `<tr><td colspan="8" class="text-center py-4 text-red-500">Error al cargar registros: ${error.message}</td></tr>`;
             });
         }
 
-
-        // --- Renderizado de Tablas ---
-
-
         function mostrarRegistros(turnos) {
-            const tbody = document.getElementById('registrosBody');
-            tbody.innerHTML = '';
-
+            const tbody = document.getElementById("registrosBody");
+            tbody.innerHTML = "";
 
             if (turnos.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-gray-500">No hay turnos registrados aún.</td></tr>`;
                 return;
             }
 
-
-            turnos.forEach(registro => {
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-blue-50';
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-700 font-medium">${registro.fechaTurno || 'N/A'}</td> <!-- NUEVO CAMPO FECHA -->
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${registro.nombreDispatcher}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${registro.horaEntrada}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${registro.horaSalida}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">${registro.carrerasPositivas}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-semibold">${registro.carrerasNegativas}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-orange-600">${registro.carrerasNegativasFaltaDriver}</td>
-                    <td class="px-6 py-4 text-xs text-gray-700 max-w-xs overflow-hidden text-ellipsis">${registro.observacionesTurno || 'N/A'}</td>
+            turnos.forEach(r => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-blue-50">
+                        <td class="px-6 py-4 text-xs text-gray-700">${r.fechaTurno || "N/A"}</td>
+                        <td class="px-6 py-4 text-sm font-medium">${r.nombreDispatcher}</td>
+                        <td class="px-6 py-4 text-sm">${r.horaEntrada}</td>
+                        <td class="px-6 py-4 text-sm">${r.horaSalida}</td>
+                        <td class="px-6 py-4 text-sm text-green-600">${r.carrerasPositivas}</td>
+                        <td class="px-6 py-4 text-sm text-red-600">${r.carrerasNegativas}</td>
+                        <td class="px-6 py-4 text-sm text-orange-600">${r.carrerasNegativasFaltaDriver}</td>
+                        <td class="px-6 py-4 text-xs">${r.observacionesTurno || "N/A"}</td>
+                    </tr>
                 `;
-                tbody.appendChild(row);
             });
         }
 
-
         function mostrarDrivers(drivers) {
-            const tbody = document.getElementById('driversBody');
-            tbody.innerHTML = '';
-           
+            const tbody = document.getElementById("driversBody");
+            tbody.innerHTML = "";
+
             if (drivers.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-500">No hay montos de drivers registrados.</td></tr>`;
                 return;
             }
 
-
-            // Agrupar por driver para ver el total acumulado
-            const driverTotals = drivers.reduce((acc, driver) => {
-                acc[driver.driverNombre] = (acc[driver.driverNombre] || 0) + driver.monto;
+            const totals = drivers.reduce((acc, d) => {
+                acc[d.driverNombre] = (acc[d.driverNombre] || 0) + d.monto;
                 return acc;
             }, {});
 
-
-            // Mostrar Totales Acumulados (Destacado)
-            Object.entries(driverTotals).forEach(([nombre, monto]) => {
-                const row = document.createElement('tr');
-                row.className = 'bg-yellow-50 hover:bg-yellow-100 font-bold';
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">TOTALES</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${nombre}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$${monto.toFixed(2)}</td>
+            for (const [name, monto] of Object.entries(totals)) {
+                tbody.innerHTML += `
+                    <tr class="bg-yellow-50 font-bold">
+                        <td class="px-6 py-4">TOTALES</td>
+                        <td class="px-6 py-4">${name}</td>
+                        <td class="px-6 py-4">$${monto.toFixed(2)}</td>
+                    </tr>
                 `;
-                tbody.appendChild(row);
-            });
-           
-            // Separador para detalle
-            if (drivers.length > 0) {
-                tbody.innerHTML += `<tr><td colspan="3" class="text-center py-2 bg-gray-200 text-xs font-medium">DETALLE POR TURNO</td></tr>`;
             }
 
+            tbody.innerHTML += `<tr><td colspan="3" class="text-center py-2 bg-gray-200 text-xs">DETALLE POR TURNO</td></tr>`;
 
-            // Mostrar Detalle de cada entrada
-            drivers.forEach(driver => {
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-gray-50';
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500">${driver.turnoDispatcher}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${driver.driverNombre}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-green-700">$${driver.monto.toFixed(2)}</td>
+            drivers.forEach(d => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 text-xs">${d.turnoDispatcher}</td>
+                        <td class="px-6 py-4">${d.driverNombre}</td>
+                        <td class="px-6 py-4 text-green-700">$${d.monto.toFixed(2)}</td>
+                    </tr>
                 `;
-                tbody.appendChild(row);
             });
         }
 
-
-        // --- Manejo del Formulario (Guardado en Firestore) ---
-        document.getElementById('turnoForm').addEventListener('submit', async function(e) {
+        /* 📤 ENVÍO DEL FORMULARIO */
+        document.getElementById("turnoForm").addEventListener("submit", async e => {
             e.preventDefault();
 
+            if (!isAuthReady) return alert("Firebase no está listo.");
 
-            if (!db || !isAuthReady) {
-                showMessage("La aplicación no está lista o la base de datos no está conectada.", true);
-                return;
-            }
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const submitText = document.getElementById("submitText");
+            const submitSpinner = document.getElementById("submitSpinner");
 
-
-            // Deshabilitar botón y mostrar spinner mientras se procesa
-            const submitButton = this.querySelector('button[type="submit"]');
-            const submitText = document.getElementById('submitText');
-            const submitSpinner = document.getElementById('submitSpinner');
             submitButton.disabled = true;
-            submitText.classList.add('hidden');
-            submitSpinner.classList.remove('hidden');
+            submitText.classList.add("hidden");
+            submitSpinner.classList.remove("hidden");
 
+            const dia = document.getElementById("diaTurno").value.padStart(2, "0");
+            const mes = document.getElementById("mesTurno").value.padStart(2, "0");
+            const ano = document.getElementById("anoTurno").value;
+            const fechaTurno = `${dia}/${mes}/${ano}`;
+
+            const drivers = [];
+            document.querySelectorAll("#driverInputsBody tr").forEach(row => {
+                const nombre = row.querySelector(".driver-nombre").value;
+                const monto = parseFloat(row.querySelector(".driver-monto").value);
+
+                if (nombre && monto > 0) {
+                    drivers.push({ nombre, monto });
+                }
+            });
+
+            const data = {
+                dispatcherId: userId,
+                fechaTurno,
+                nombreDispatcher: document.getElementById("nombreDispatcher").value,
+                horaEntrada: document.getElementById("horaEntrada").value,
+                horaSalida: document.getElementById("horaSalida").value,
+                carrerasPositivas: +document.getElementById("carrerasPositivas").value,
+                carrerasNegativas: +document.getElementById("carrerasNegativas").value,
+                explicacionNegativas: document.getElementById("explicacionNegativas").value,
+                carrerasNegativasFaltaDriver: +document.getElementById("carrerasNegativasFaltaDriver").value,
+                carrerasHoteles: +document.getElementById("carrerasHoteles").value,
+                carrerasWhatsApp: +document.getElementById("carrerasWhatsApp").value,
+                appointments: +document.getElementById("appointments").value,
+                observacionesTurno: document.getElementById("observacionesTurno").value,
+                drivers,
+                timestamp: serverTimestamp()
+            };
 
             try {
-                // Obtener y formatear la fecha (DD/MM/YYYY)
-                const dia = document.getElementById('diaTurno').value.padStart(2, '0');
-                const mes = document.getElementById('mesTurno').value.padStart(2, '0');
-                const ano = document.getElementById('anoTurno').value;
-                const fechaTurno = `${dia}/${mes}/${ano}`;
-
-
-                const driversArray = [];
-                const driverRows = document.querySelectorAll('#driverInputsBody tr');
-               
-                // Recolectar datos de los drivers
-                driverRows.forEach(row => {
-                    const nombreInput = row.querySelector('.driver-nombre');
-                    const montoInput = row.querySelector('.driver-monto');
-
-
-                    // Guardar solo si el nombre existe y el monto es un número positivo
-                    if (nombreInput.value.trim() && parseFloat(montoInput.value) > 0) {
-                        driversArray.push({
-                            nombre: nombreInput.value.trim(),
-                            monto: parseFloat(montoInput.value)
-                        });
-                    }
-                });
-
-
-                // Construir el objeto de datos del turno
-                const registroData = {
-                    dispatcherId: userId,
-                    fechaTurno: fechaTurno, // AÑADIDO: Fecha del turno
-                    nombreDispatcher: document.getElementById('nombreDispatcher').value,
-                    horaEntrada: document.getElementById('horaEntrada').value,
-                    horaSalida: document.getElementById('horaSalida').value,
-                    carrerasPositivas: parseInt(document.getElementById('carrerasPositivas').value) || 0,
-                    carrerasNegativas: parseInt(document.getElementById('carrerasNegativas').value) || 0,
-                    explicacionNegativas: document.getElementById('explicacionNegativas').value,
-                    carrerasNegativasFaltaDriver: parseInt(document.getElementById('carrerasNegativasFaltaDriver').value) || 0,
-                    carrerasHoteles: parseInt(document.getElementById('carrerasHoteles').value) || 0,
-                    carrerasWhatsApp: parseInt(document.getElementById('carrerasWhatsApp').value) || 0,
-                    appointments: parseInt(document.getElementById('appointments').value) || 0,
-                    observacionesTurno: document.getElementById('observacionesTurno').value,
-                    drivers: driversArray,
-                    timestamp: serverTimestamp() // Usa la marca de tiempo del servidor
-                };
-
-
-                // Guardar el documento en Firestore
-                await addDoc(collection(db, getCollectionPath()), registroData);
-               
-                // Mostrar mensaje de éxito
-                showMessage("¡Turno registrado y compartido exitosamente!", false);
-
-
-                // Limpiar el formulario y restablecer las filas de drivers
-                this.reset();
+                await addDoc(collection(db, getCollectionPath()), data);
+                showMessage("¡Turno registrado correctamente!");
+                e.target.reset();
                 setupDriverRows();
-
-
-            } catch (error) {
-                console.error("Error al registrar el turno:", error);
-                // Mostrar error visible al usuario
-                showMessage(`ERROR: No se pudo registrar el turno. ${error.message}`, true);
-            } finally {
-                // Restaurar el botón
-                submitButton.disabled = false;
-                submitText.classList.remove('hidden');
-                submitSpinner.classList.add('hidden');
+            } catch (err) {
+                console.error(err);
+                showMessage("Error al registrar el turno: " + err.message, true);
             }
+
+            submitButton.disabled = false;
+            submitText.classList.remove("hidden");
+            submitSpinner.classList.add("hidden");
         });
 
-
-        // Iniciar la aplicación de Firebase al cargar el script
-        if (!configError) {
-            loadingIndicator.classList.remove('hidden');
-            initializeFirebase();
+        function showMessage(msg, err = false) {
+            const box = document.getElementById("messageBox");
+            box.textContent = msg;
+            box.classList.remove("hidden");
+            box.className = `p-3 rounded-lg text-center font-bold mb-4 ${err ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`;
+            setTimeout(() => box.classList.add("hidden"), 5000);
         }
-
 
     </script>
 </body>
 </html>
+
 
